@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI &amp; Machine Learning | InvestHub</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Invest<span style="color: var(--accent);">Hub</span></a>
+      <div class="nav-links">
+        <a href="../index.html#market" class="nav__link">Market</a>
+        <a href="../index.html#macro" class="nav__link">Macro</a>
+        <a href="../index.html#research" class="nav__link">Research</a>
+        <a href="../index.html#theses" class="nav__link">Theses</a>
+        <a href="../index.html#about" class="nav__link">About</a>
+        <a href="../index.html#contact" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" style="height:50vh; background: linear-gradient(180deg, var(--black), var(--coal));">
+    <div class="hero-content">
+      <h1 style="font-size:4rem;">AI &amp; Machine Learning</h1>
+      <p>Harnessing artificial intelligence to unlock new frontiers in automation.</p>
+    </div>
+  </header>
+
+  <section class="section angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Thesis Overview</h2>
+      <p class="about-text" style="color: rgba(0,0,0,0.85);">
+        Artificial intelligence (AI) and machine learning (ML) are transforming industries by enabling computers to learn from data and perform tasks once reserved for humans. From natural language processing and computer vision to autonomous vehicles and generative models, the applications are vast and rapidly evolving.
+      </p>
+      <p class="about-text" style="color: rgba(0,0,0,0.85); margin-top:1.5rem;">
+        We believe AI adoption will accelerate as businesses seek efficiency gains and competitive advantage. Investments in specialised hardware, cloud infrastructure and software platforms will underpin this growth, while ethical and regulatory considerations will shape market leaders.
+      </p>
+    </div>
+  </section>
+
+  <section class="section alt-angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">AI Adoption Curve</h2>
+      <div class="market-chart-container" style="height:350px;">
+        <canvas id="ai-chart"></canvas>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const ctx = document.getElementById('ai-chart').getContext('2d');
+          const labels = ['2018','2019','2020','2021','2022','2023','2024','2025'];
+          const adoption = [10, 15, 22, 35, 45, 55, 65, 75];
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Enterprise AI Adoption (%)',
+                data: adoption,
+                borderColor: '#34d399',
+                backgroundColor: 'rgba(52,211,153,0.15)',
+                borderWidth: 2,
+                tension: 0.25,
+                pointRadius: 3
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } }, grid: { display: false } },
+                y: { ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } }, grid: { color:'rgba(0,0,0,0.05)' }, max:100 }
+              },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: context => `${context.parsed.y}%`
+                  }
+                }
+              }
+            }
+          });
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="section angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Key Drivers</h2>
+      <ul class="thesis-points" style="color: rgba(0,0,0,0.85);">
+        <li>Proliferation of data and improvements in computational power enabling complex models.</li>
+        <li>Demand for automation across industries reducing costs and unlocking new capabilities.</li>
+        <li>Ecosystems of open‑source frameworks and pre‑trained models accelerating development.</li>
+      </ul>
+      <h2 class="section-title" style="margin-bottom:2rem; margin-top:3rem;">Risks &amp; Considerations</h2>
+      <ul class="thesis-points" style="color: rgba(0,0,0,0.85);">
+        <li>Ethical concerns around bias, privacy and surveillance may spur regulation.</li>
+        <li>Talent shortages and high development costs could hinder widespread adoption.</li>
+        <li>Geopolitical competition for AI leadership may lead to fragmentation of standards.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section alt-angled">
+    <div class="section-wrapper" style="text-align:center;">
+      <a href="../index.html#research" class="button">Back to Research</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    &copy; 2025 InvestHub. All rights reserved.
+  </footer>
+
+  <!-- Scroll to top button -->
+  <div id="scroll-top" style="position: fixed; bottom: 1.5rem; right: 1.5rem; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--white); display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; opacity:0; transition: opacity 0.3s ease; pointer-events:none; z-index:1000;">↑</div>
+</body>
+</html>

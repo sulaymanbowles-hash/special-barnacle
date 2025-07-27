@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Cities &amp; Real Estate | InvestHub</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Invest<span style="color: var(--accent);">Hub</span></a>
+      <div class="nav-links">
+        <a href="../index.html#market" class="nav__link">Market</a>
+        <a href="../index.html#macro" class="nav__link">Macro</a>
+        <a href="../index.html#research" class="nav__link">Research</a>
+        <a href="../index.html#theses" class="nav__link">Theses</a>
+        <a href="../index.html#about" class="nav__link">About</a>
+        <a href="../index.html#contact" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" style="height:50vh; background: linear-gradient(180deg, var(--black), var(--coal));">
+    <div class="hero-content">
+      <h1 style="font-size:4rem;">Smart Cities &amp; Real Estate</h1>
+      <p>How urbanisation and smart infrastructure shape real estate opportunities.</p>
+    </div>
+  </header>
+
+  <section class="section angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Thesis Overview</h2>
+      <p class="about-text" style="color: rgba(0,0,0,0.85);">
+        By 2050, over two‑thirds of the world’s population will live in cities. This urbanisation trend is prompting massive investments in smart infrastructure: sensor networks, energy‑efficient buildings and data‑driven city management. Such technologies promise to ease congestion, reduce emissions and enhance quality of life.
+      </p>
+      <p class="about-text" style="color: rgba(0,0,0,0.85); margin-top:1.5rem;">
+        Real estate stands at the centre of this evolution. Smart buildings equipped with IoT devices are becoming platforms for services like on‑demand maintenance, environmental monitoring and dynamic space allocation. Investors who understand these technological drivers and demographic trends stand to benefit from long‑term structural tailwinds.
+      </p>
+    </div>
+  </section>
+
+  <section class="section alt-angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Urban Population &amp; Smart Investment</h2>
+      <div class="market-chart-container" style="height:350px;">
+        <canvas id="smart-chart"></canvas>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const ctx = document.getElementById('smart-chart').getContext('2d');
+          const labels = ['2020','2021','2022','2023','2024','2025'];
+          const urbanPopulation = [55, 56, 57, 58, 59, 60];
+          const smartInvestment = [100, 120, 150, 190, 240, 300];
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Urban Population (%)',
+                  data: urbanPopulation,
+                  backgroundColor: 'rgba(34,197,94,0.8)'
+                },
+                {
+                  label: 'Smart City Investment (USD Billions)',
+                  data: smartInvestment,
+                  backgroundColor: 'rgba(59,130,246,0.8)',
+                  yAxisID: 'y1'
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } }, grid: { display:false } },
+                y: { 
+                  position: 'left', 
+                  ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } },
+                  grid: { color:'rgba(0,0,0,0.05)' },
+                  max: 70
+                },
+                y1: {
+                  position: 'right',
+                  ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } },
+                  grid: { drawOnChartArea: false },
+                  max: 350
+                }
+              },
+              plugins: {
+                legend: { labels: { font: { family:'Maison Neue Mono', size: 10 }, color:'#333' } }
+              }
+            }
+          });
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="section angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Key Drivers</h2>
+      <ul class="thesis-points" style="color: rgba(0,0,0,0.85);">
+        <li>Continued urbanisation across emerging and developed markets.</li>
+        <li>Demand for energy efficiency and carbon reduction driving smart infrastructure deployment.</li>
+        <li>Rise of proptech platforms enabling better asset management and tenant experiences.</li>
+      </ul>
+      <h2 class="section-title" style="margin-bottom:2rem; margin-top:3rem;">Risks &amp; Considerations</h2>
+      <ul class="thesis-points" style="color: rgba(0,0,0,0.85);">
+        <li>Regulatory hurdles and fragmented governance across municipalities can slow adoption.</li>
+        <li>High upfront costs and uncertain returns on smart infrastructure investments.</li>
+        <li>Data privacy and security concerns may limit the deployment of IoT solutions.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section alt-angled">
+    <div class="section-wrapper" style="text-align:center;">
+      <a href="../index.html#research" class="button">Back to Research</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    &copy; 2025 InvestHub. All rights reserved.
+  </footer>
+
+  <!-- Scroll to top button -->
+  <div id="scroll-top" style="position: fixed; bottom: 1.5rem; right: 1.5rem; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--white); display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; opacity:0; transition: opacity 0.3s ease; pointer-events:none; z-index:1000;">↑</div>
+</body>
+</html>

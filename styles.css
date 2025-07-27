@@ -1,0 +1,2646 @@
+/*
+ * Stylesheet for the rebuilt Investment Research Hub
+ *
+ * This file defines a modern, minimalist theme inspired by the reference VC portfolio.
+ * It uses CSS variables for colours, spacing and fonts, enabling easy theme toggling.
+ */
+
+/* Colour palette */
+:root {
+  --black: #0a0a0a;
+  --coal: #474747;
+  --white: #ffffff;
+  --linen: #efe8e2;
+  --light-gray: #f5f5f5;
+  --accent: #9f9087;
+  --positive: #16a34a;
+  --negative: #dc2626;
+  --transition: 0.3s ease;
+}
+
+/* Font definitions (remote fonts with fallbacks) */
+@font-face {
+  font-family: 'Aeonik Pro';
+  src: url('https://cdn.prod.website-files.com/638f18bec1c3ba6c00dd2ac1/63b3ef5bd222e770edc29c7f_AeonikPro-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Aeonik Pro';
+  src: url('https://cdn.prod.website-files.com/638f18bec1c3ba6c00dd2ac1/63c590724f4e802f5b54ab8a_AeonikProTRIAL-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maison Neue Mono';
+  src: url('https://cdn.prod.website-files.com/638f18bec1c3ba6c00dd2ac1/63b3ef7e2ac12cbd5bce6c5c_MaisonNeueMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Maison Neue Mono', monospace;
+  background-color: var(--black);
+  color: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* Enable smooth background colour transitions between sections */
+  transition: background-color var(--transition);
+}
+
+/* Navigation */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  text-decoration: none;
+  transition: opacity var(--transition);
+}
+.logo:hover {
+  opacity: 0.8;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.nav__link {
+  position: relative;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color var(--transition);
+}
+.nav__link:hover {
+  color: var(--white);
+}
+
+/* Active nav link (highlight current section) */
+.nav__link.active {
+  color: var(--accent);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  /* Set an abstract financial background image for the hero.  The image
+     file resides in the img folder.  The canvas animation will appear
+     on top of this image, blending tech and finance themes. */
+  /* Use the new hero background image generated with a futuristic financial theme */
+  background-image: url('img/hero-bg2.png');
+  background-size: cover;
+  background-position: center;
+}
+
+#hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: var(--coal);
+}
+
+.hero-content {
+  max-width: 900px;
+  padding: 0 1rem;
+}
+.hero-content h1 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 4.5rem;
+  font-weight: 400;
+  margin-bottom: 1.25rem;
+}
+.hero-content p {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--white);
+  border-radius: 4px;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background var(--transition), color var(--transition);
+}
+.button:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* Smaller variant of the main button used in the watchlist input */
+.button.small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  border: none;
+}
+
+/* Sections */
+.section {
+  position: relative;
+  padding: 8rem 0;
+  scroll-margin-top: 6rem;
+}
+.section-wrapper {
+  width: 90%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  position: relative;
+}
+.section-title {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 3rem;
+  text-align: center;
+  /* Inherit colour from the parent section to work on both light and dark backgrounds */
+  color: inherit;
+}
+
+/* Subsection headings used within sections (e.g. Investment Theses heading) */
+.subsection-title {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: inherit;
+}
+
+/* Light and dark section wrappers.
+ * These classes replace the previous angled/alt-angled design, providing
+ * a more cohesive experience across the page. Assign the appropriate
+ * class to each <section> to control the background and text colour. */
+.section-light {
+  background-color: var(--linen);
+  color: var(--black);
+}
+/* Dark themed section for alternating design. Provides a deep charcoal backdrop
+   with light text for high contrast. Use on alternating sections such as
+   market history, energy or research to create visual rhythm across the page. */
+.section-dark {
+  background-color: #1f2022;
+  color: var(--linen);
+}
+
+/* Ensure links and headings inside dark sections remain legible */
+.section-dark a { color: var(--accent); }
+.section-dark .section-title { color: var(--linen); }
+.section-dark .subsection-title { color: var(--linen); }
+
+/* Ensure text within the dark About section remains readable.  By default
+   paragraphs use dark text colours, which can be illegible on the
+   charcoal background.  Override to use the same linen colour as the
+   section. */
+.section-dark .about-text p {
+  color: var(--linen);
+}
+
+/* Macro dashboard container within the macro section */
+.macro-dashboard {
+  margin-top: 4rem;
+  text-align: center;
+}
+.macro-dashboard h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  color: inherit;
+}
+.macro-dashboard p {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.95rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Macro card headings: support both h3 and h4 elements used in macro dashboard */
+.macro-card h3,
+.macro-card h4 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Angled backgrounds for alternating sections */
+.angled {
+  background-color: var(--linen);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8vw), calc(100% - 8vw) 100%, 0 100%);
+  color: var(--black);
+}
+.alt-angled {
+  background-color: var(--light-gray);
+  clip-path: polygon(0 8vw, 8vw 0, 100% 0, 100% 100%, 0 100%);
+  color: var(--black);
+}
+
+/* Market section */
+.market-ticker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 3rem;
+}
+.ticker-item {
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.ticker-item.positive span.change {
+  color: var(--positive);
+}
+.ticker-item.negative span.change {
+  color: var(--negative);
+}
+.market-chart-container {
+  width: 100%;
+  max-width: 800px;
+  height: 250px;
+  margin: 2rem auto;
+}
+/* Primary market chart: width and height are controlled by container */
+.market-main {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin: 0 auto;
+}
+
+/* Canvas inside the primary chart container fills the space */
+.market-main canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Description under the market section title */
+.market-description {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  color: rgba(0,0,0,0.8);
+  max-width: 900px;
+  margin: 0 auto 1.5rem auto;
+  text-align: center;
+}
+
+/* Caption for the main market chart */
+.chart-caption {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.6);
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Caption inside overview cards */
+.overview-caption {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 0.5rem;
+}
+
+/* Watchlist container */
+.watchlist-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--white);
+  color: var(--black);
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1rem), calc(100% - 1rem) 100%, 0 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.watchlist-container h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Additional description text beneath the watchlist heading */
+.watchlist-description {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.75rem;
+}
+.watchlist-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.watchlist-input input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+.watchlist-input button {
+  padding: 0.5rem 1rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  border: none;
+  background: var(--accent);
+  color: var(--white);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.watchlist-input button:hover {
+  background: var(--coal);
+}
+.watchlist-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.watchlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+}
+.watchlist-item:last-child {
+  border-bottom: none;
+}
+.watchlist-ticker {
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+.watchlist-price {
+  margin-right: 0.5rem;
+}
+.watchlist-change {
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+.watchlist-change.positive {
+  color: var(--positive);
+}
+.watchlist-change.negative {
+  color: var(--negative);
+}
+.watchlist-remove {
+  cursor: pointer;
+  color: var(--negative);
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+
+/* Market overview grid: splits the market dashboard into four cards for stocks, crypto, FRED and EIA */
+.market-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.overview-card {
+  background: var(--white);
+  color: var(--black);
+  padding: 1.5rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1rem), calc(100% - 1rem) 100%, 0 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.overview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.overview-card h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+.overview-card canvas,
+.overview-card div {
+  width: 100% !important;
+  height: 200px !important;
+}
+
+/* Energy section adjustments */
+#energy {
+  position: relative;
+}
+#energy::before {
+  /* Create a soft gradient between the light market section and the dark energy section.  */
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--linen) 0%, var(--black) 100%);
+  z-index: -1;
+}
+.energy-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--white);
+}
+.energy-controls label {
+  margin-right: 0.25rem;
+}
+.energy-controls select {
+  padding: 0.3rem 0.6rem;
+  background: var(--coal);
+  color: var(--white);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+}
+.energy-card {
+  position: relative;
+}
+.api-badge {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.55rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-light .api-badge {
+  background: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Stock spotlight section */
+.stock-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.stock-candle-chart {
+  width: 100% !important;
+  height: 320px !important;
+}
+.stock-thesis {
+  background: var(--coal);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.stock-thesis h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.stock-thesis p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.85);
+}
+
+/* Crypto section additions */
+.crypto-metrics {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.crypto-metrics .metric-card {
+  background: var(--coal);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  color: var(--white);
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.crypto-metrics .metric-card .label {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.3rem;
+}
+.crypto-metrics .metric-card .value {
+  font-size: 1.4rem;
+  font-family: 'Aeonik Pro', sans-serif;
+}
+
+/* Colour coding for crypto metric cards: positive values are green, negative values red.
+   We target the .value element when its parent card has the positive or negative class. */
+.crypto-metrics .metric-card.positive .value {
+  color: #10b981;
+}
+.crypto-metrics .metric-card.negative .value {
+  color: #ef4444;
+}
+.crypto-candle-container {
+  width: 100%;
+  height: 320px;
+  margin-bottom: 2rem;
+}
+.crypto-candle-container #crypto-candle-chart {
+  width: 100%;
+  height: 100%;
+}
+.crypto-research-link a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.crypto-research-link a:hover {
+  opacity: 0.8;
+}
+
+/* Global crypto metrics cards for the dark-themed crypto section.  Each
+   card displays a headline statistic (market cap, volume, etc.). */
+.crypto-global-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.crypto-global-metrics .global-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  text-align: center;
+  min-width: 140px;
+}
+.crypto-global-metrics .global-card .value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--white);
+}
+.crypto-global-metrics .global-card .label {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+}
+
+/* Options dashboard layout improvements */
+.options-chart-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.options-chart-container canvas,
+ .options-chart-container #options-surface-chart,
+ .options-chart-container #options-callput-wrapper {
+  background: var(--white);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.section-dark .options-chart-container canvas,
+.section-dark .options-chart-container #options-surface-chart,
+.section-dark .options-chart-container #options-callput-wrapper {
+  background: var(--coal);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Make the entire overview card clickable by styling the anchor wrapper */
+.overview-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.overview-card-link .overview-card {
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.overview-card-link .overview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* News ticker bar at the bottom of the market section. A horizontal marquee of headlines. */
+.news-ticker {
+  width: 100%;
+  overflow: hidden;
+  /* Lighten the news ticker to match the rest of the page */
+  background: var(--linen);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--black);
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  padding: 0.8rem 0;
+  white-space: nowrap;
+  position: relative;
+  /* Remove dark gradient and shadow for a cleaner look */
+  background-image: none;
+  box-shadow: none;
+}
+.news-ticker .ticker {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  /* slow down the scroll for better readability */
+  animation: ticker 100s linear infinite;
+}
+.news-ticker .ticker-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2.5rem;
+  color: rgba(0,0,0,0.8);
+  font-size: 1rem;
+}
+.news-ticker .ticker-item:not(:last-child)::after {
+  content: '\2022'; /* bullet separator */
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: var(--accent);
+  opacity: 0.7;
+}
+@keyframes ticker {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+
+/* Macro small charts container */
+.macro-small-charts {
+  display: grid;
+  /* allow additional mini charts for housing and retail by reducing the minimum size */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.macro-mini {
+  background: var(--light-gray);
+  padding: 1rem;
+  border-radius: 6px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.75rem), calc(100% - 0.75rem) 100%, 0 100%);
+}
+.macro-mini canvas {
+  width: 100% !important;
+  height: 120px !important;
+}
+
+/* News feed below market chart */
+.news-feed {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--coal);
+  line-height: 1.5;
+}
+.news-feed ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.news-feed li {
+  margin-bottom: 0.5rem;
+}
+
+/* Provide spacing above the horizontal news ticker */
+.news-ticker-container {
+  margin-top: 2rem;
+}
+
+/* Macro section */
+.macro-select {
+  display: block;
+  margin: 0 auto 1.5rem;
+  padding: 0.5rem 1rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--black);
+}
+.macro-chart-container {
+  width: 100%;
+  max-width: 900px;
+  height: 350px;
+  margin: 0 auto;
+}
+#macro-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
+/* Additional macro multi-chart */
+#macro-multi-chart {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 350px;
+}
+
+/* AI-generated macro analysis section */
+.macro-analysis {
+  margin-top: 2rem;
+  background: var(--white-smoke);
+  padding: 1.5rem 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--coal);
+  max-width: 100%;
+}
+.macro-analysis h3 {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--black);
+}
+.macro-analysis ul {
+  list-style: disc inside;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  /* Display bullet points across two columns on larger screens to create
+     a wider, shorter insight card.  Fallbacks gracefully to a single
+     column on narrow viewports. */
+  columns: 2;
+  column-gap: 1.5rem;
+}
+.macro-analysis li {
+  margin-bottom: 0.25rem;
+}
+
+/* History section */
+.history-chart-container {
+  width: 100%;
+  max-width: 900px;
+  height: 350px;
+  margin: 2rem auto;
+}
+#history-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Candlestick chart container */
+.candlestick-chart-container {
+  width: 100%;
+  max-width: 900px;
+  height: 400px;
+  margin: 2rem auto;
+}
+
+/* Portfolio section */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+.portfolio-card {
+  background: var(--linen);
+  color: var(--black);
+  padding: 2rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.portfolio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.portfolio-card h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+.portfolio-card p {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 0.6rem;
+}
+.portfolio-card p strong {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-weight: 700;
+}
+
+/* Portfolio pie chart */
+.portfolio-chart-container {
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+  margin: 2rem auto 0 auto;
+}
+#portfolio-pie {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Container for the portfolio performance line chart.  The chart spans a
+   greater width than the pie chart to allow more room for time series
+   visualization.  Adjust height as needed to match the design. */
+.portfolio-performance-container {
+  width: 100%;
+  max-width: 900px;
+  height: 360px;
+  margin: 2rem auto 0 auto;
+}
+#portfolio-performance-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Portfolio stats section: summarises portfolio performance metrics */
+.portfolio-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.portfolio-stats .stat {
+  background: var(--light-gray);
+  color: var(--black);
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  text-align: center;
+  min-width: 140px;
+}
+.portfolio-stats .stat .value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--coal);
+}
+.portfolio-stats .stat .label {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(0,0,0,0.7);
+}
+
+/* Macro dashboard cards */
+.macro-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.macro-card {
+  background: var(--light-gray);
+  color: var(--black);
+  padding: 1.5rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.macro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.macro-card h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.macro-value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.macro-change {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+.macro-change.positive {
+  color: var(--positive);
+}
+.macro-change.negative {
+  color: var(--negative);
+}
+
+/* Neutral change value for metrics with no change */
+.macro-change.neutral {
+  color: #555;
+}
+
+/* Contact section redesign */
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 3rem;
+}
+.contact-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.contact-card {
+  background: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  color: var(--black);
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.contact-card i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.contact-card h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+.contact-card p {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+}
+.contact-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+.contact-link:hover {
+  text-decoration: underline;
+}
+.contact-form-card {
+  background: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  color: var(--black);
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+}
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(237, 187, 153, 0.3);
+}
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.contact-form button {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* About section card styling */
+.about-card {
+  background: var(--light-gray);
+  color: var(--black);
+  padding: 2rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.5rem), calc(100% - 1.5rem) 100%, 0 100%);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+.about-content p {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.team-heading {
+  margin-top: 2rem;
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.5rem;
+  color: var(--black);
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.team-member {
+  background: var(--linen);
+  color: var(--black);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.team-photo {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.2rem;
+}
+.team-member h4 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+.team-member p {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  color: rgba(0,0,0,0.7);
+}
+
+/* Description text under each macro card */
+.macro-desc {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: -0.5rem;
+}
+.macro-sparkline {
+  width: 100% !important;
+  height: 60px !important;
+}
+
+/* Redesigned macro grid layout */
+.macro-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 3rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+.macro-chart-panel {
+  position: relative;
+  min-height: 400px;
+}
+.macro-chart-panel canvas {
+  width: 100% !important;
+  height: 400px !important;
+}
+.macro-chart-panel .chart-caption {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.7);
+  margin-top: 0.75rem;
+}
+.macro-side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.macro-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+.macro-mini-item {
+  background: var(--light-gray);
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  color: var(--black);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.macro-mini-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+.macro-mini-item h4 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: var(--coal);
+}
+.macro-mini-item canvas {
+  width: 100% !important;
+  height: 80px !important;
+}
+/* Simple scroll animations */
+.animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Research grid */
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+}
+.research-card {
+  background: var(--linen);
+  color: var(--black);
+  padding: 2rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+  display: block;
+}
+.research-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.research-card h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+.research-card p {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+.research-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.research-card .tag {
+  background: var(--light-gray);
+  color: var(--coal);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-family: 'Maison Neue Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Search filter */
+.research-filter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.research-filter input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.6rem 1rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+/* Theses cards (same as earlier definition) */
+.theses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.thesis-card {
+  background: var(--linen);
+  padding: 2rem;
+  border-radius: 8px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  text-decoration: none;
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.thesis-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.thesis-card h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.thesis-card p {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 1rem;
+}
+.thesis-points {
+  list-style: none;
+  margin-bottom: 1rem;
+  font-family: 'Maison Neue Mono', monospace;
+  padding-left: 0;
+}
+.thesis-points li {
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+.thesis-points li::before {
+  content: '';
+  position: absolute;
+  top: 0.45rem;
+  left: 0;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.thesis-card canvas {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 1rem;
+}
+.thesis-button {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--white);
+  border-radius: 4px;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: background var(--transition);
+}
+.thesis-button:hover {
+  background: var(--coal);
+}
+
+/* About & Team */
+.about-text {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: rgba(0, 0, 0, 0.8);
+}
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.team-member {
+  background: var(--white);
+  color: var(--black);
+  padding: 2rem;
+  border-radius: 8px;
+  flex: 1 1 260px;
+  max-width: 320px;
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.team-member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.team-photo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.5rem;
+  color: var(--white);
+}
+.team-member h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: 'Aeonik Pro', sans-serif;
+}
+.team-member p {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Contact section */
+.contact-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.contact-card {
+  background: var(--white);
+  color: var(--black);
+  padding: 2rem;
+  border-radius: 8px;
+  flex: 1 1 300px;
+  max-width: 360px;
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 1.25rem), calc(100% - 1.25rem) 100%, 0 100%);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.contact-card i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--coal);
+}
+.contact-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Aeonik Pro', sans-serif;
+  font-weight: 700;
+}
+.contact-card p {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+.contact-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+/* Contact form styles */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 0.75rem 1rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--black);
+}
+.contact-form textarea {
+  height: 150px;
+  resize: vertical;
+}
+.contact-form button {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.contact-form button:hover {
+  background: var(--coal);
+}
+
+/* Status message below the contact form. Colours are applied inline from
+   JavaScript depending on success or failure, but we provide a base font
+   and spacing here. */
+.contact-status {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+}
+
+/* Character count indicator for contact message */
+.contact-form .message-count {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  text-align: right;
+  color: var(--gray-500);
+}
+
+/* Portfolio analytics containers for histogram and risk-return charts */
+.portfolio-hist-container,
+.portfolio-riskreturn-container {
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+.portfolio-hist-container canvas,
+.portfolio-riskreturn-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Crypto section layout */
+.crypto-chart-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.crypto-chart-container canvas {
+  width: 100% !important;
+  height: 300px !important;
+}
+.crypto-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+.crypto-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.crypto-table-wrapper th,
+.crypto-table-wrapper td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.crypto-table-wrapper tbody tr:nth-child(even) {
+  background: var(--light-gray);
+}
+.crypto-table-wrapper tbody tr:hover {
+  background: var(--linen);
+}
+
+/* Footer */
+.footer {
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: var(--coal);
+}
+
+/* History analysis container: provides AI commentary and news for the
+   primary asset displayed in the history & candles section. */
+.history-analysis {
+  margin-top: 2rem;
+  background: var(--light-gray);
+  padding: 1.5rem;
+  border-radius: 6px;
+  color: var(--black);
+  font-family: 'Maison Neue Mono', monospace;
+  line-height: 1.6;
+}
+.history-analysis h4 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--coal);
+}
+.history-analysis ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+}
+
+/* -------------------------------------
+ * Options Market Section
+ * This section allows users to explore options data such as implied
+ * volatility and open interest across strikes.  The controls and charts
+ * here mirror the typographic style of the rest of the site while
+ * emphasising clarity and usability.
+ */
+.options-description {
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.75);
+}
+.options-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.options-controls label {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--coal);
+}
+.options-select {
+  padding: 0.5rem 0.75rem;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--black);
+}
+/* Options chart container now uses a responsive grid to lay out the four charts
+   in two rows.  The first row holds implied volatility and open interest; the
+   second row holds greeks and the volatility surface. */
+.options-chart-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  /* Arrange the four option charts in a 2x2 grid regardless of screen width.
+     On smaller screens, the grid will stack gracefully due to the minmax
+     fallback. */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+#options-iv-chart,
+#options-oi-chart,
+#options-greeks-chart {
+  width: 100% !important;
+  height: 250px !important;
+}
+#options-surface-chart {
+  width: 100%;
+  height: 350px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Call/put ratio chart spans both columns of the options grid on larger
+   screens.  It provides a wide donut chart summarising open interest
+   distribution. */
+#options-callput-chart {
+  /* This rule is no longer applied directly to the canvas.  The wrapper
+     defines the height; the canvas will stretch to fill it. */
+  grid-column: 1 / -1;
+  width: 100% !important;
+  height: 100% !important;
+  margin-top: 0;
+}
+
+/* Wrapper for the call/put ratio chart.  Setting a fixed height here
+   ensures that the doughnut chart remains compact and proportional. */
+#options-callput-wrapper {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 250px;
+  margin-top: 1rem;
+}
+
+/* Stats summary for options.  Displays a row of small cards with values and labels. */
+.options-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.options-stats .stat {
+  background: var(--light-gray);
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  text-align: center;
+  min-width: 120px;
+}
+.options-stats .stat .value {
+  display: block;
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--coal);
+}
+.options-stats .stat .label {
+  display: block;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(0,0,0,0.6);
+  margin-top: 0.25rem;
+}
+
+/* Override layout of the options stats container.  Force a flex layout
+   so the stat cards sit side by side and wrap as needed.  This rule
+   targets the id directly to ensure specificity. */
+#options-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+#options-stats .stat {
+  background: var(--light-gray);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  min-width: 140px;
+}
+.section-dark #options-stats .stat {
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* History analysis panel: displays AI commentary and news for the primary asset */
+.history-analysis {
+  background: var(--light-gray);
+  color: var(--black);
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.history-analysis h3 {
+  font-family: 'Aeonik Pro', sans-serif;
+  margin-bottom: 0.5rem;
+  color: var(--coal);
+}
+.history-analysis p {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  color: var(--coal);
+}
+.history-analysis ul {
+  padding-left: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+/* ==========================================================
+ * Stock Spotlight custom styles
+ * Provides layout for the stock selection, metrics and candlestick chart.
+ */
+ .stock-header {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 0.5rem;
+ }
+ .stock-select {
+   padding: 0.4rem 0.8rem;
+   font-family: 'Maison Neue Mono', monospace;
+   font-size: 0.9rem;
+   border: 1px solid rgba(255,255,255,0.2);
+   border-radius: 4px;
+   background: var(--coal);
+   color: var(--white);
+ }
+ .stock-metrics {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 1.5rem;
+   margin-top: 1rem;
+ }
+ .stock-metrics .metric-card {
+   background: var(--coal);
+   padding: 1rem 1.25rem;
+   border-radius: 8px;
+   min-width: 140px;
+   text-align: center;
+   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+   color: var(--white);
+ }
+ .stock-metrics .metric-card .label {
+   font-size: 0.75rem;
+   color: rgba(255,255,255,0.6);
+   margin-bottom: 0.25rem;
+ }
+ .stock-metrics .metric-card .value {
+   font-family: 'Aeonik Pro', sans-serif;
+   font-size: 1.4rem;
+ }
+ .stock-candle-container {
+   width: 100%;
+   height: 350px;
+ }
+ .stock-candle-container #lw-candle-chart {
+   width: 100%;
+   height: 100%;
+ }
+
+/* ==========================================================
+ * Portfolio redesign styles
+ * Provides a clean dashboard-like layout for the new portfolio section.  Metrics,
+ * charts and a holdings table are arranged for quick comprehension.
+ */
+.portfolio-description {
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+}
+
+.portfolio-overview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.portfolio-overview .metric-card {
+  background: var(--coal);
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  min-width: 140px;
+  text-align: center;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.portfolio-overview .metric-card .label {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.25rem;
+}
+.portfolio-overview .metric-card .value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.4rem;
+}
+
+/* ==========================================================
+ * Enhanced Portfolio Analytics
+ * These classes support the new two-column layout for the portfolio section,
+ * with metric cards, allocation chart, risk-return scatter, performance chart,
+ * correlation heatmap and a holdings table.  They complement the existing
+ * portfolio redesign styles defined above.
+ */
+
+.portfolio-intro {
+  font-size: 1rem;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+  color: rgba(255,255,255,0.85);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.portfolio-left,
+.portfolio-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.portfolio-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+.portfolio-metrics .metric-card {
+  background: var(--coal);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+.portfolio-metrics .metric-card .label {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 0.5rem;
+}
+.portfolio-metrics .metric-card .value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* Adjust heights of the portfolio charts so they stack nicely within their containers */
+#portfolio-risk-return-chart,
+#portfolio-allocation-chart,
+#portfolio-performance-chart-new {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+/* Make the factor exposures chart match the dimensions of other portfolio charts */
+#portfolio-factor-chart {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+#portfolio-correlation-container {
+  width: 100%;
+  height: 320px;
+}
+
+/* ==========================================================
+ * Options Analytics Dashboard
+ * Fresh styling for the completely rebuilt options section.  Provides
+ * responsive layouts, clean metric cards and well-structured charts.
+ */
+.options-intro {
+  font-size: 1rem;
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+  color: rgba(0,0,0,0.8);
+}
+
+.options-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.options-controls label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.options-controls select {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.options-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.options-metrics-grid .metric-card {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+.options-metrics-grid .metric-card .label {
+  font-size: 0.7rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+.options-metrics-grid .metric-card .value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.options-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.options-chain-table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+.option-chain-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.option-chain-table th,
+.option-chain-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  text-align: right;
+}
+.option-chain-table th {
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+  background: #fafafa;
+}
+.option-chain-table td.type {
+  text-align: left;
+  font-weight: 600;
+  color: #222;
+}
+.option-chain-table tr:nth-child(odd) td {
+  background: #fcfcfc;
+}
+
+/* Hero overlay: adds a gradient overlay above the background image to improve text readability */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Apply a subtle gradient overlay that blends the hero image with the site’s palette.
+     A slightly warmer tone at the top transitions into a deeper shade at the bottom.
+     This harmonises the hero section with the rest of the page while improving
+     text legibility. */
+  background: linear-gradient(to bottom, rgba(20, 15, 10, 0.6), rgba(20, 15, 10, 0.8));
+  z-index: -1;
+}
+
+.portfolio-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.portfolio-table-container {
+  overflow-x: auto;
+}
+
+.portfolio-holdings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.portfolio-holdings-table th,
+.portfolio-holdings-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+}
+.portfolio-holdings-table th {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+}
+.portfolio-holdings-table td {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.9);
+}
+.portfolio-holdings-table tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* ==========================================================
+ * Options dashboard redesign styles
+ * Structures summary cards, charts and an option chain table in a
+ * cohesive dashboard layout.
+ */
+.options-summary-new {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.options-summary-new .summary-card {
+  background: var(--light-gray);
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.section-dark .options-summary-new .summary-card {
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  color: var(--white);
+}
+.options-summary-new .summary-card .label {
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: rgba(0,0,0,0.6);
+}
+.section-dark .options-summary-new .summary-card .label {
+  color: rgba(255,255,255,0.6);
+}
+.options-summary-new .summary-card .value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.4rem;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.options-table-card {
+  background: var(--light-gray);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.section-dark .options-table-card {
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+}
+
+.option-chain-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.option-chain-table th,
+.option-chain-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  text-align: left;
+}
+.section-dark .option-chain-table th,
+.section-dark .option-chain-table td {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+.option-chain-table th {
+  font-size: 0.75rem;
+  color: rgba(0,0,0,0.6);
+}
+.section-dark .option-chain-table th {
+  color: rgba(255,255,255,0.7);
+}
+.option-chain-table td {
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.8);
+}
+.section-dark .option-chain-table td {
+  color: rgba(255,255,255,0.9);
+}
+.option-chain-table tr:hover {
+  background: rgba(0,0,0,0.03);
+}
+.section-dark .option-chain-table tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* ==========================================================
+ * Options Dashboard styles
+ * New summary cards and chart grid for the redesigned options section.
+ */
+ .options-summary {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 1.5rem;
+   margin-bottom: 2rem;
+ }
+ .options-summary .summary-card {
+   background: var(--light-gray);
+   padding: 1rem 1.5rem;
+   border-radius: 8px;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+   min-width: 150px;
+   text-align: center;
+ }
+ .section-dark .options-summary .summary-card {
+   background: rgba(255,255,255,0.08);
+   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+   color: var(--white);
+ }
+ .options-summary .summary-card .label {
+   display: block;
+   font-size: 0.75rem;
+   color: rgba(0,0,0,0.6);
+   margin-bottom: 0.25rem;
+ }
+ .section-dark .options-summary .summary-card .label {
+   color: rgba(255,255,255,0.6);
+ }
+ .options-summary .summary-card .value {
+   font-family: 'Aeonik Pro', sans-serif;
+   font-size: 1.4rem;
+ }
+ .options-chart-grid {
+   width: 100%;
+   max-width: 1100px;
+   margin: 0 auto;
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+   gap: 2rem;
+ }
+ .chart-card {
+   background: var(--light-gray);
+   padding: 1rem;
+   border-radius: 8px;
+   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+   position: relative;
+ }
+ .section-dark .chart-card {
+   background: var(--coal);
+   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+ }
+ .chart-card canvas {
+   width: 100% !important;
+   height: 280px !important;
+ }
+
+/* ==========================================================
+ * Crypto section enhancements
+ */
+ .crypto-top {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 1.5rem;
+   margin-bottom: 1.5rem;
+ }
+ .crypto-top .coin-card {
+   background: var(--coal);
+   padding: 1rem 1.25rem;
+   border-radius: 8px;
+   min-width: 150px;
+   text-align: center;
+   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+   color: var(--white);
+ }
+ .crypto-top .coin-card .label {
+   font-size: 0.75rem;
+   color: rgba(255,255,255,0.6);
+ }
+ .crypto-top .coin-card .value {
+   font-family: 'Aeonik Pro', sans-serif;
+   font-size: 1.4rem;
+   margin-bottom: 0.25rem;
+ }
+ .crypto-showcases {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 2rem;
+   margin-top: 2rem;
+ }
+ .showcase {
+   background: var(--coal);
+   border-radius: 8px;
+   padding: 1.5rem;
+   color: var(--white);
+   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+ }
+ .showcase h3 {
+   font-family: 'Aeonik Pro', sans-serif;
+   font-size: 1.6rem;
+   margin-bottom: 0.75rem;
+ }
+ .token-metrics {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 1rem;
+   margin-bottom: 1rem;
+ }
+ .token-metrics .metric-card {
+   background: var(--coal);
+   padding: 0.75rem 1rem;
+   border-radius: 6px;
+   min-width: 120px;
+   text-align: center;
+   box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+   color: var(--white);
+ }
+ .token-metrics .metric-card .label {
+   font-size: 0.7rem;
+   color: rgba(255,255,255,0.6);
+   margin-bottom: 0.25rem;
+ }
+ .token-metrics .metric-card .value {
+   font-family: 'Aeonik Pro', sans-serif;
+   font-size: 1.3rem;
+ }
+ .token-chart canvas {
+   width: 100% !important;
+   height: 260px !important;
+ }
+.history-analysis li {
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+  color: var(--coal);
+}
+
+/* Scroll top button (additional global styles) */
+#scroll-top {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  line-height: 1;
+}
+#scroll-top:hover {
+  background: var(--coal);
+}
+
+/* ---------- Custom enhancements for updated site ---------- */
+
+/* Wider layout for the macro insight card to reduce vertical scroll. The card
+   spans most of the container width and centres itself within the macro
+   section. */
+#macro-insight-card {
+  max-width: 100%;
+  width: 90%;
+  margin: 2rem auto;
+}
+
+/* Energy section chart layout: side-by-side panels that wrap on smaller
+   screens. Each panel (energy-card) holds a Chart.js canvas or other
+   graphical element. */
+.energy-charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+.energy-card {
+  flex: 1 1 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Ensure energy chart canvases occupy a reasonable height so that
+   Chart.js can render properly. Without explicit dimensions the
+   canvases may collapse to zero height inside flex layouts. */
+.energy-card canvas {
+  width: 100% !important;
+  height: 250px !important;
+}
+
+/* Option charts (implied volatility, open interest, greeks and surface) need
+   explicit heights to render correctly. Without these dimensions Chart.js and
+   Plotly may default to zero height, resulting in blank areas. */
+.options-chart-container canvas {
+  width: 100% !important;
+  height: 300px !important;
+  margin-bottom: 1.5rem;
+}
+#options-surface-chart {
+  width: 100% !important;
+  height: 300px !important;
+  margin-top: 1.5rem;
+}
+
+/*
+ * Refreshed design for the Options Market dashboard.  Each chart or
+ * visualization sits on its own card with a subtle background and
+ * gentle shadow.  On light backgrounds we use the light-gray colour
+ * palette; on dark backgrounds we switch to the coal palette for
+ * better contrast.  Padding ensures content is comfortably spaced.
+ */
+.options-chart-container > * {
+  background: var(--light-gray);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.section-dark .options-chart-container > * {
+  background: var(--coal);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* Stat cards within the options section adopt a similar card treatment
+   with bolder typography to call attention to key numbers. */
+.options-stats .stat {
+  background: var(--light-gray);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.section-dark .options-stats .stat {
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* Energy stats container: displays crude oil, natural gas and fuel mix values in small cards */
+.energy-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.energy-stat {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.energy-stat .label {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 0.9rem;
+  color: var(--linen);
+  margin-bottom: 0.3rem;
+}
+.energy-stat .value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* Market history improvements: layout containers for line and candlestick
+   charts to sit side-by-side on larger screens and stack on smaller ones. */
+.market-history-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+.market-line-chart {
+  flex: 1 1 500px;
+}
+.market-candle-chart {
+  flex: 1 1 500px;
+  min-height: 400px;
+}
+
+/* Provide a minimum height for the lightweight candlestick container to prevent
+   it from collapsing in flex layouts. Without this explicit rule the
+   container may report a zero height when the chart is initialised. */
+#lw-candle-chart {
+  min-height: 400px;
+}
+
+/* Macro bar container: ensure the bar chart has a defined height so it
+   renders consistently across light and dark themes.  Without an explicit
+   height Chart.js will collapse the canvas if its parent flex container
+   does not have intrinsic height. */
+.macro-bar-container canvas,
+#macro-bar-chart {
+  width: 100%;
+  height: 250px;
+  min-height: 200px;
+}
+
+/* Portfolio analytics metrics: cards summarising aggregated portfolio
+   performance. */
+.portfolio-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.portfolio-metric {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  text-align: center;
+  flex: 1 1 160px;
+  min-width: 140px;
+}
+.portfolio-metric h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--accent);
+}
+.portfolio-metric p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: 'Maison Neue Mono', monospace;
+}
+
+/* Macro highlights: compact cards summarising each macro indicator on the right side of the macro section. */
+.macro-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.macro-highlight-card {
+  flex: 1 1 160px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+.macro-highlight-card.dark {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.macro-highlight-card h4 {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: inherit;
+}
+.macro-highlight-card .value {
+  font-family: 'Aeonik Pro', sans-serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--black);
+}
+.macro-highlight-card.dark .value {
+  color: var(--linen);
+}
+.macro-highlight-card .change {
+  font-size: 0.8rem;
+  margin-top: 0.15rem;
+}
+.macro-highlight-card .positive {
+  color: var(--positive);
+}
+.macro-highlight-card .negative {
+  color: var(--negative);
+}
+.macro-highlight-card .neutral {
+  color: #6b7280;
+}
+.macro-highlight-card .desc {
+  font-size: 0.7rem;
+  margin-top: 0.25rem;
+  color: #6b7280;
+}
+
+/* Options table: displays the top option contracts by open interest. */
+.options-table-wrapper {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+.options-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+}
+.options-table th, .options-table td {
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+}
+.options-table th {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--black);
+  font-weight: 600;
+}
+.section-dark .options-table th {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--linen);
+}
+.options-table tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.03);
+}
+.section-dark .options-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+.options-table tr:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+.section-dark .options-table tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* === Crypto section styles === */
+/* Grid container for the price and pump index charts.  The layout stacks
+   vertically on small screens and becomes two columns on larger screens. */
+.crypto-chart-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+/* Each chart item ensures its canvas fills the available space with a fixed
+   height.  Chart.js respects the canvas size via the inline height and width. */
+.crypto-chart-item canvas {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+/* Bar chart container retains a consistent height to avoid dominating the page */
+.crypto-bar-container canvas {
+  width: 100% !important;
+  height: 250px !important;
+}
+
+/* Table styling for crypto tokens matches the options table aesthetic */
+.crypto-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Maison Neue Mono', monospace;
+  font-size: 0.85rem;
+}
+.crypto-table th,
+.crypto-table td {
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+}
+.crypto-table th {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--black);
+  font-weight: 600;
+}
+.section-dark .crypto-table th {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--linen);
+}
+.crypto-table tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.03);
+}
+.section-dark .crypto-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+.crypto-table tr:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+.section-dark .crypto-table tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive: show price and pump charts side by side on wider screens */
+@media (min-width: 768px) {
+  .crypto-chart-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+  .section-title {
+    font-size: 2.5rem;
+  }
+}

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Investment Research Hub</title>
+  <!-- Core stylesheet defining fonts, colours and layout -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js library for data visualisations. Using CDN ensures the library is available. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Luxon and Chart.js date adapter enable parsing of ISO date strings and
+       nicer time axis formatting for our energy and history charts.  Luxon
+       handles date/time operations while the adapter integrates it into
+       Chart.js. -->
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.0/build/global/luxon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0/dist/chartjs-adapter-luxon.min.js"></script>
+  <!-- Chart.js plugins: zoom/pan for interactive exploration and annotation for recession shading -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.3.1/dist/chartjs-plugin-annotation.umd.min.js"></script>
+  <!-- Chart.js crosshair plugin for crosshair interactions on line charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@3.3.0/dist/chartjs-plugin-crosshair.min.js"></script>
+  <!-- AOS library for scroll-triggered animations -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- ApexCharts for candlestick and advanced charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/5.3.1/apexcharts.min.js"></script>
+  <!-- Plotly for advanced 3D charts and option surfaces -->
+  <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+  <!-- Lightweight Charts for elegant candlestick visualisations -->
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <!-- Numeral.js for formatting numbers and currency values -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+  <!-- Defer loading of our own script until after the document is parsed -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Navigation bar fixed to the top -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Invest<span style="color: var(--accent);">Hub</span></a>
+      <div class="nav-links">
+        <!-- Simplified navigation: group related topics together.  
+             Market covers overview, history and candlesticks; Macro covers trends and dashboard; Options covers derivative analytics; Portfolio includes AI insights and performance; Research houses both research articles and theses; About & Contact remain separate. -->
+        <a href="#market" class="nav__link">Market</a>
+        <a href="#macro" class="nav__link">Macro</a>
+        <a href="#options" class="nav__link">Options</a>
+        <!-- New link: navigate directly to the Crypto & Meme Coins section.  Placing it between
+             Options and Portfolio emphasises that crypto sits at the crossroads of
+             derivatives and portfolio construction. -->
+        <a href="#crypto" class="nav__link">Crypto</a>
+        <a href="#portfolio" class="nav__link">Portfolio</a>
+        <a href="#research" class="nav__link">Research</a>
+        <a href="#about" class="nav__link">About</a>
+        <a href="#contact" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero section with animated canvas and headline -->
+  <header class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <h1>Shaping the Future of Investment</h1>
+      <p>Discover data‑driven insights, macro trends and deep investment theses.</p>
+      <a href="#research" class="button">Explore Research</a>
+    </div>
+  </header>
+
+  <!-- Market section: overview and sample chart -->
+<section id="market" class="section section-light" data-aos="fade-up" data-bgcolor="var(--linen)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Market Overview</h2>
+      <p class="market-description">A comprehensive snapshot of major asset classes. Explore equities, crypto, macro‑economic indicators and energy markets all in one place.  Charts are normalised to a base of 100 so you can easily compare relative performance; hover for details.</p>
+      <div class="market-ticker">
+        <!-- In a live environment these items will be populated from APIs; static examples shown here -->
+        <div class="ticker-item positive"><span class="symbol">SPY</span> <span class="price">$480.12</span> <span class="change">+0.56%</span></div>
+        <div class="ticker-item negative"><span class="symbol">BTC</span> <span class="price">$38,200</span> <span class="change">‑1.20%</span></div>
+        <div class="ticker-item positive"><span class="symbol">ETH</span> <span class="price">$2,450</span> <span class="change">+0.85%</span></div>
+        <div class="ticker-item positive"><span class="symbol">TSLA</span> <span class="price">$780.34</span> <span class="change">+2.12%</span></div>
+      </div>
+      <!-- Primary market chart with caption -->
+      <div class="market-main">
+        <canvas id="market-chart"></canvas>
+      </div>
+      <p class="chart-caption">S&amp;P&nbsp;500 ETF (SPY) vs Bitcoin (BTC) – daily closing prices normalised to 100 over the last 30 days. Values above 100 indicate gains since the start date.</p>
+      <!-- Newly added overview grid splits the market dashboard into four focus areas: stocks, crypto, FRED and EIA.  Each card hosts its own chart. -->
+      <div class="market-overview-grid">
+        <a class="overview-card-link" href="#history">
+          <div class="overview-card">
+            <h3>Stocks</h3>
+            <p class="overview-caption">SPY &amp; TSLA indexed to 100. Compare the equity market’s performance over the last month.</p>
+            <!-- Use a canvas element for the stocks mini‑chart so Chart.js can render into it.  The div
+                 originally used here did not provide a drawing context, which prevented the
+                 chart from appearing. -->
+            <canvas id="stock-overview-chart"></canvas>
+          </div>
+        </a>
+        <a class="overview-card-link" href="#history">
+          <div class="overview-card">
+            <h3>Crypto</h3>
+            <p class="overview-caption">Bitcoin &amp; Ethereum indexed to 100. Assess relative momentum in major cryptocurrencies.</p>
+            <canvas id="crypto-overview-chart"></canvas>
+          </div>
+        </a>
+        <a class="overview-card-link" href="#macro">
+          <div class="overview-card">
+            <h3>Macro (FRED)</h3>
+            <p class="overview-caption">Key economic indicators (GDP, CPI &amp; Unemployment) normalised to 100 for cross‑comparison.</p>
+            <canvas id="fred-overview-chart"></canvas>
+          </div>
+        </a>
+        <a class="overview-card-link" href="#energy">
+          <div class="overview-card">
+            <h3>Energy (EIA)</h3>
+            <p class="overview-caption">Monthly electricity generation by fuel type for ERCOT. Gauging the energy mix evolution.</p>
+            <canvas id="eia-overview-chart"></canvas>
+          </div>
+        </a>
+      </div>
+      <!-- Watchlist: allows users to add custom tickers and view latest prices. -->
+      <div class="watchlist-container">
+        <h3>Your Watchlist</h3>
+        <p class="watchlist-description">Add your favourite tickers below and we’ll fetch the latest price and daily change for you. Your list is stored locally so it persists between visits.</p>
+        <div class="watchlist-input">
+          <input type="text" id="watchlist-input" placeholder="Add ticker (e.g., AAPL)" />
+          <button id="watchlist-add-btn" class="button small">Add</button>
+        </div>
+        <ul id="watchlist-list" class="watchlist-list"></ul>
+      </div>
+      <!-- Vertical news feed (up to three items) populated via API. -->
+      <div id="news-feed" class="news-feed"></div>
+      <!-- Horizontal news ticker at the bottom of the market section. -->
+      <div class="news-ticker-container">
+        <div id="news-ticker" class="news-ticker"><div class="ticker"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Energy section: visualising key energy trends using EIA data or sample data -->
+<section id="energy" class="section section-dark" data-aos="fade-up" data-bgcolor="var(--black)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Energy Markets</h2>
+      <p style="text-align:center; max-width:750px; margin:0 auto 1.5rem;">
+        Explore trends in U.S. energy production, consumption and generation across
+        different fuel sources. Data are sourced from the U.S. Energy Information
+        Administration (EIA) API where available or approximated from recent reports.
+      </p>
+      <!-- Timeframe selector for the energy charts.  Allow users to choose how much
+           history to display for the energy prices and ratios.  The default is
+           one year (365 days). -->
+      <div class="energy-controls">
+        <label for="energy-timeframe" class="energy-label">Timeframe:</label>
+        <select id="energy-timeframe" class="energy-select">
+          <option value="30">1M</option>
+          <option value="90">3M</option>
+          <option value="180">6M</option>
+          <option value="365" selected>1Y</option>
+        </select>
+      </div>
+      <div class="energy-charts">
+        <div class="energy-card">
+          <h3 style="text-align:center; margin-bottom:0.5rem;">Crude Oil Production</h3>
+          <canvas id="energy-oil-chart"></canvas>
+          <span class="api-badge">EIA API</span>
+        </div>
+        <div class="energy-card">
+          <h3 style="text-align:center; margin-bottom:0.5rem;">Electricity Generation by Fuel</h3>
+          <canvas id="energy-electricity-chart"></canvas>
+          <span class="api-badge">EIA API</span>
+        </div>
+        <!-- New chart: ratio of WTI crude price to Henry Hub natural gas price. This chart
+             visualises the relative value of oil versus gas, providing insight into
+             energy market spreads. -->
+        <div class="energy-card">
+          <h3 style="text-align:center; margin-bottom:0.5rem;">Oil to Gas Ratio</h3>
+          <canvas id="energy-ratio-chart"></canvas>
+          <span class="api-badge">EIA API</span>
+        </div>
+        <!-- New chart: energy mix donut showing the share of each fuel in U.S. electricity generation.
+             This donut chart helps users understand the composition of the energy mix at a glance. -->
+        <div class="energy-card">
+          <h3 style="text-align:center; margin-bottom:0.5rem;">Energy Mix</h3>
+          <canvas id="energy-mix-chart"></canvas>
+          <span class="api-badge">EIA API</span>
+        </div>
+      </div>
+      <!-- Inline energy stats summarise the latest values for crude oil and natural gas prices, along with the dominant fuel share in electricity generation.  These metrics are populated dynamically via script.js. -->
+      <div id="energy-stats" class="energy-stats" style="margin-top:2rem;"></div>
+    </div>
+  </section>
+
+  <!-- Macro section: redesigned for clarity and depth -->
+<section id="macro" class="section section-light" data-aos="fade-up" data-bgcolor="var(--linen)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Macro &amp; Economic Trends</h2>
+      <p class="macro-description">Dive deep into the economic landscape.  Explore a composite index of key indicators alongside individual time series and AI‑generated insights.</p>
+      <div class="macro-grid">
+        <!-- Main macro panel: multi‑series chart covering GDP, CPI, Unemployment, Rates, Treasuries, Housing, Retail -->
+        <div class="macro-chart-panel">
+          <canvas id="macro-multi-chart"></canvas>
+          <p class="chart-caption">Composite index of major economic indicators normalised to 100.  Hover to compare growth, inflation and labour metrics over time.</p>
+        </div>
+        <!-- Side panel: mini charts only.  Macro insight has been moved below
+             the grid to allow it to span the full width of the macro section. -->
+        <div class="macro-side-panel">
+          <!-- Macro highlights: succinct cards summarising the latest reading and momentum for each key indicator.
+               These cards replace the unused mini charts and provide an at‑a‑glance snapshot of growth,
+               inflation, labour, policy and market conditions.  The cards are generated via
+               renderMacroHighlights() in script.js. -->
+          <div id="macro-highlights" class="macro-highlights"></div>
+        </div>
+      </div>
+      <!-- Place the macro insight below the main grid so it can span the full
+           width of the macro section.  The content is inserted via
+           populateMacroAnalysis() in script.js. -->
+      <div id="macro-analysis" class="macro-analysis"></div>
+
+      <!-- Inline macro dashboard: moved from the separate section for a more cohesive layout -->
+      <div class="macro-dashboard">
+        <h3>Macro Dashboard</h3>
+        <p>Key economic indicators at a glance. Latest values and recent momentum across growth, inflation, labour and markets.</p>
+        <!-- Macro dashboard cards.  We provide default cards with sample values so the
+             dashboard is never empty.  These will be updated dynamically via
+             setupMacroDashboard() when API data is available. -->
+        <div id="macro-cards" class="macro-cards">
+          <div class="macro-card">
+            <h3>Real GDP</h3>
+            <div class="macro-value">26,000 B</div>
+            <div class="macro-change positive">+3.5%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+          <div class="macro-card">
+            <h3>CPI</h3>
+            <div class="macro-value">300</div>
+            <div class="macro-change positive">+2.1%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+          <div class="macro-card">
+            <h3>Unemployment</h3>
+            <div class="macro-value">4.2%</div>
+            <div class="macro-change negative">-0.1%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+          <div class="macro-card">
+            <h3>Fed Funds Rate</h3>
+            <div class="macro-value">4.50%</div>
+            <div class="macro-change neutral">0.0%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+          <div class="macro-card">
+            <h3>10Y Treasury</h3>
+            <div class="macro-value">4.00%</div>
+            <div class="macro-change positive">+0.2%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+          <div class="macro-card">
+            <h3>Housing Starts</h3>
+            <div class="macro-value">1.70 M</div>
+            <div class="macro-change positive">+3.0%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+          <div class="macro-card">
+            <h3>Retail Sales</h3>
+            <div class="macro-value">640 B</div>
+            <div class="macro-change positive">+1.5%</div>
+            <canvas class="macro-sparkline"></canvas>
+          </div>
+        </div>
+        <!-- API attribution for macro data -->
+        <span class="api-badge">FRED API</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Macro dashboard removed: content integrated into macro section -->
+
+  <!-- Stock spotlight section: showcase a single equity with candlesticks, fundamentals and analysis. -->
+  <section id="history" class="section section-dark" data-aos="fade-up" data-bgcolor="var(--black)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Stock Spotlight</h2>
+      <p class="stock-description">Discover individual equities with live candlesticks, fundamental metrics and in‑depth commentary. Select a stock to explore its recent price action and key valuation ratios.</p>
+      <div class="stock-header" style="margin-bottom:1rem;">
+        <label for="stock-select" style="margin-right:0.5rem;">Select Stock:</label>
+        <select id="stock-select" class="stock-select">
+          <option value="AAPL">AAPL</option>
+          <option value="MSFT">MSFT</option>
+          <option value="GOOGL">GOOGL</option>
+          <option value="AMZN">AMZN</option>
+          <option value="TSLA">TSLA</option>
+        </select>
+      </div>
+      <!-- Fundamental metrics such as price, P/E ratio, market cap and yield will populate here via renderStockMetrics() -->
+      <div id="stock-metrics" class="stock-metrics"></div>
+      <!-- Candlestick chart rendered via Plotly.  This replaces the previous dual‑chart layout for clarity. -->
+      <div class="stock-candle-container" style="margin-top:1.5rem;">
+        <div id="lw-candle-chart"></div>
+      </div>
+      <!-- Thesis and AI analysis will populate here -->
+      <div id="stock-thesis" class="stock-thesis"></div>
+      <div id="history-analysis" class="history-analysis"></div>
+      <span class="api-badge">AlphaVantage API</span>
+    </div>
+  </section>
+
+  <!-- Options analytics section: built from scratch for deeper derivative insights -->
+  <section id="options" class="section section-light" data-aos="fade-up" data-bgcolor="var(--linen)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Options Analytics</h2>
+      <p class="options-intro">Analyse derivative markets with interactive surfaces and metrics. Select an underlying and expiry to explore volatility, positioning and risk.</p>
+      <!-- Controls for selecting the underlying and expiration.  Expiry options are populated dynamically via setupOptionsAnalytics(). -->
+      <div class="options-controls">
+        <label for="options-underlying">Underlying:</label>
+        <select id="options-underlying" class="options-select">
+          <option value="SPY">SPY</option>
+          <option value="TSLA">TSLA</option>
+          <option value="AAPL">AAPL</option>
+        </select>
+        <label for="options-expiry">Expiry:</label>
+        <select id="options-expiry" class="options-select"></select>
+      </div>
+      <!-- Summary metrics: average IV, total open interest, put/call ratio, average delta -->
+      <div id="options-metrics" class="options-metrics-grid"></div>
+      <!-- Charts grid: volatility surface heatmap, IV skew, OI distribution and Greek scatter -->
+      <div class="options-charts-grid">
+        <div class="chart-card" id="volatility-surface"></div>
+        <div class="chart-card"><canvas id="iv-skew-chart"></canvas></div>
+        <div class="chart-card"><canvas id="oi-expiry-chart"></canvas></div>
+        <div class="chart-card"><canvas id="greeks-scatter-chart"></canvas></div>
+      </div>
+      <!-- Option chain table summarising calls and puts for the selected expiry -->
+      <div class="options-chain-table-container">
+        <table id="option-chain-table" class="option-chain-table"></table>
+      </div>
+      <span class="api-badge">Polygon API</span>
+    </div>
+  </section>
+
+  <!-- Crypto & Meme Coins section: explore the wild world of memecoins and pump.fun.  This new
+       section visualises price movements and a synthetic Pump Index for a selection of trending
+       tokens.  Users can switch tokens via the drop‑down; charts update interactively.  A bar
+       chart highlights the current pump intensity across tokens, and the table provides an
+       overview of prices, 24h change and pump index values. -->
+  <section id="crypto" class="section section-dark" data-aos="fade-up" data-bgcolor="var(--black)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Crypto</h2>
+      <p class="crypto-description" style="max-width:800px;margin:0 auto 2rem auto;text-align:center;">
+        Stay on top of the digital asset market with real‑time metrics for the leading cryptocurrencies and curated spotlights on emerging tokens.
+      </p>
+      <!-- Top coin metrics (BTC, ETH, SOL) populated via script.js -->
+      <div id="crypto-top" class="crypto-top"></div>
+      <!-- Global crypto statistics such as total market cap and 24h volume -->
+      <div id="crypto-global-metrics" class="crypto-global-metrics"></div>
+      <!-- Dedicated showcases for HyperLiquid (HYPE) and Pump.fun (PUMP) tokens -->
+      <div class="crypto-showcases">
+        <div class="showcase" id="showcase-hyperliquid">
+          <h3>HyperLiquid (HYPE)</h3>
+          <div id="hyper-metrics" class="token-metrics"></div>
+          <div class="token-chart"><canvas id="hyper-chart"></canvas></div>
+          <p class="token-desc">HyperLiquid is a decentralised perpetual exchange boasting best‑in‑class speed, deep liquidity and one‑click trading without approvals.</p>
+        </div>
+        <div class="showcase" id="showcase-pumpfun">
+          <h3>Pump.fun (PUMP)</h3>
+          <div id="pump-metrics" class="token-metrics"></div>
+          <div class="token-chart"><canvas id="pump-chart"></canvas></div>
+          <p class="token-desc">Pump.fun’s official token underpins the memecoin launchpad, capturing community hype and early‑stage momentum.</p>
+        </div>
+      </div>
+      <!-- Research link encourages users to explore our in‑depth crypto analysis. -->
+      <p class="crypto-research-link" style="text-align:center;margin-top:2rem;">
+        For a deeper dive into decentralised finance and digital assets, read our
+        <a href="research/blockchain-defi.html">crypto research</a>.
+      </p>
+      <span class="api-badge">CoinGecko &amp; Pump.fun APIs</span>
+    </div>
+  </section>
+
+  <!-- Portfolio section: redesigned analytics dashboard -->
+  <section id="portfolio" class="section section-dark" data-aos="fade-up" data-bgcolor="var(--black)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Portfolio Insights</h2>
+      <p class="portfolio-intro">A deep dive into your portfolio’s composition, performance and risk metrics.</p>
+      <!-- Grid layout splits the portfolio view into left and right panels.  The left column houses
+           metric cards along with allocation and risk/return charts.  The right column focuses on
+           performance, correlation and detailed holdings. -->
+      <div class="portfolio-grid">
+        <div class="portfolio-left">
+          <!-- Metric cards (total value, YTD return, Sharpe ratio, drawdown) inserted via setupPortfolioAnalytics() -->
+          <div id="portfolio-metrics" class="portfolio-metrics"></div>
+          <!-- Allocation by weight: doughnut chart -->
+          <div class="chart-card"><canvas id="portfolio-allocation-chart"></canvas></div>
+          <!-- Risk vs return scatter plot -->
+          <div class="chart-card"><canvas id="portfolio-risk-return-chart"></canvas></div>
+          <!-- Factor exposures bar chart: shows portfolio tilts to common factors (size, value, momentum, quality) -->
+          <div class="chart-card"><canvas id="portfolio-factor-chart"></canvas></div>
+        </div>
+        <div class="portfolio-right">
+          <!-- Portfolio performance vs benchmark chart -->
+          <div class="chart-card"><canvas id="portfolio-performance-chart-new"></canvas></div>
+          <!-- Correlation heatmap rendered via Plotly -->
+          <div class="chart-card" id="portfolio-correlation-container"></div>
+          <!-- Holdings table: lists each asset, its weight, price and daily change -->
+          <div class="portfolio-table-container">
+            <table id="portfolio-holdings-table" class="portfolio-holdings-table"></table>
+          </div>
+        </div>
+      </div>
+      <span class="api-badge">Alpaca &amp; AlphaVantage APIs</span>
+    </div>
+  </section>
+
+  <!-- Research section: overview of research articles -->
+<section id="research" class="section section-light" data-aos="fade-up" data-bgcolor="var(--linen)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Research Library</h2>
+      <div class="research-filter">
+        <input id="research-search" type="text" placeholder="Search by title or tag…" />
+      </div>
+      <div id="research-grid" class="research-grid">
+        <!-- Cards are populated by script.js -->
+      </div>
+      <!-- Integrate investment theses directly below research articles -->
+      <h3 class="subsection-title" style="margin-top:3rem;text-align:center;">Investment Theses</h3>
+      <div id="theses-grid" class="theses-grid" style="margin-top:1.5rem;">
+        <!-- Thesis cards are populated by script.js -->
+      </div>
+      <div style="text-align:center; margin-top:2.5rem;">
+        <a href="research/index.html" class="button">View All Research</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About section: who we are and what we believe -->
+<section id="about" class="section section-dark" data-aos="fade-up" data-bgcolor="var(--black)">
+    <div class="section-wrapper">
+      <h2 class="section-title">About</h2>
+      <div class="about-card">
+        <div class="about-content">
+          <p>
+            InvestHub is a boutique research firm dedicated to uncovering opportunities at the intersection of technology, finance and the real economy. We bring together deep industry expertise, data‑driven analysis and a passion for innovation to craft theses that anticipate the future.
+          </p>
+          <p>
+            Our mission is to empower investors with independent thinking and actionable insights. Through our comprehensive research library, live market dashboards and macro analysis, we strive to make complexity digestible and markets transparent.
+          </p>
+        </div>
+        <h3 class="team-heading">Our Team</h3>
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="team-photo">SB</div>
+            <h4>Sulayman</h4>
+            <p>Founder &amp; Principal Analyst</p>
+          </div>
+          <div class="team-member">
+            <div class="team-photo">JS</div>
+            <h4>Jane Smith</h4>
+            <p>Macro Strategist</p>
+          </div>
+          <div class="team-member">
+            <div class="team-photo">RK</div>
+            <h4>Ravi Kapoor</h4>
+            <p>Quantitative Researcher</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Contact section: redesigned with a dark background and two‑column layout -->
+<section id="contact" class="section section-dark" data-aos="fade-up" data-bgcolor="var(--black)">
+    <div class="section-wrapper">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-wrapper">
+        <!-- Left column: contact methods -->
+        <div class="contact-cards">
+          <div class="contact-card">
+            <i class="icon">📧</i>
+            <h3>Email Us</h3>
+            <p><a href="mailto:hello@investhub.com" class="contact-link">hello@investhub.com</a></p>
+          </div>
+          <div class="contact-card">
+            <i class="icon">💼</i>
+            <h3>LinkedIn</h3>
+            <p><a href="https://www.linkedin.com" class="contact-link" target="_blank">Connect on LinkedIn</a></p>
+          </div>
+          <div class="contact-card">
+            <i class="icon">🐦</i>
+            <h3>Twitter</h3>
+            <p><a href="https://twitter.com" class="contact-link" target="_blank">Follow on Twitter</a></p>
+          </div>
+        </div>
+        <!-- Right column: contact form card -->
+        <div class="contact-form-card">
+          <form id="contact-form" class="contact-form" novalidate>
+            <input name="name" type="text" placeholder="Your Name" required aria-label="Your Name">
+            <input name="email" type="email" placeholder="Your Email" required aria-label="Your Email">
+            <select name="subject" required aria-label="Subject">
+              <option value="" disabled selected>Select Subject…</option>
+              <option value="general">General Inquiry</option>
+              <option value="feedback">Feedback</option>
+              <option value="support">Support</option>
+            </select>
+            <textarea name="message" placeholder="Your Message" maxlength="500" required aria-label="Your Message"></textarea>
+            <div id="message-count" class="message-count">0/500</div>
+            <button type="submit" class="button">Send Message</button>
+          </form>
+          <!-- Status message placeholder -->
+          <div id="contact-status" class="contact-status" style="display:none;text-align:center;margin-top:1rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 InvestHub. All rights reserved.
+  </footer>
+
+  <!-- Scroll to top button -->
+  <div id="scroll-top" style="position: fixed; bottom: 1.5rem; right: 1.5rem; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--white); display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; opacity:0; transition: opacity 0.3s ease; pointer-events:none; z-index:1000;">↑</div>
+</body>
+</html>

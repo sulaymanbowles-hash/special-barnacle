@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blockchain &amp; DeFi Thesis | InvestHub</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">Invest<span style="color: var(--accent);">Hub</span></a>
+      <div class="nav-links">
+        <a href="../index.html#market" class="nav__link">Market</a>
+        <a href="../index.html#macro" class="nav__link">Macro</a>
+        <a href="../index.html#research" class="nav__link">Research</a>
+        <a href="../index.html#theses" class="nav__link">Theses</a>
+        <a href="../index.html#about" class="nav__link">About</a>
+        <a href="../index.html#contact" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero section for the thesis -->
+  <header class="hero" style="height:50vh; background: linear-gradient(180deg, var(--black), var(--coal));">
+    <div class="hero-content">
+      <h1 style="font-size:4rem;">Blockchain &amp; DeFi</h1>
+      <p>Decentralised finance and blockchain protocols redefining financial infrastructure.</p>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <section class="section angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Thesis Overview</h2>
+      <p class="about-text" style="color: rgba(0,0,0,0.85);">
+        The rise of blockchain technology has catalysed the emergence of decentralised finance (DeFi), a new financial architecture that eliminates traditional intermediaries. Smart contracts enable peer‑to‑peer lending, automated market making and synthetic assets, ushering in an open, transparent and global financial system.
+      </p>
+      <p class="about-text" style="color: rgba(0,0,0,0.85); margin-top:1.5rem;">
+        Our thesis contends that DeFi will continue to see explosive growth in total value locked (TVL), driven by institutional adoption, regulatory clarity and improvements in scalability. However, risks around security, governance and user experience remain key hurdles to mainstream acceptance.
+      </p>
+    </div>
+  </section>
+
+  <!-- Chart section -->
+  <section class="section alt-angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Total Value Locked (TVL) in DeFi</h2>
+      <div class="market-chart-container" style="height:350px;">
+        <canvas id="tvl-chart"></canvas>
+      </div>
+      <script>
+        /* Fetch DeFi total value locked (TVL) data from the public DeFiLlama API.  If the
+         * request fails due to network or CORS issues we fall back to a static
+         * sample.  Cached data is stored in localStorage under the key
+         * "defiTVL" so that subsequent loads can display historical data even
+         * when offline.  Each point is converted from USD to billions for
+         * readability. */
+        async function fetchDefiTvl() {
+          const fallback = () => {
+            const labels = ['2020','2021','2022','2023','2024','2025'];
+            const values = [2, 15, 80, 50, 120, 200];
+            return { labels, values };
+          };
+          // Load from cache helper
+          function loadCache() {
+            try {
+              const raw = localStorage.getItem('investHubCache:defiTVL');
+              if (!raw) return null;
+              const parsed = JSON.parse(raw);
+              return parsed.data;
+            } catch (e) { return null; }
+          }
+          function saveCache(data) {
+            try {
+              localStorage.setItem('investHubCache:defiTVL', JSON.stringify({ timestamp: Date.now(), data }));
+            } catch (e) {}
+          }
+          try {
+            const res = await fetch('https://api.llama.fi/charts/tvl');
+            const json = await res.json();
+            if (!Array.isArray(json) || json.length === 0) throw new Error('No TVL data');
+            // Convert to last 6 years (approx).  Map to yearly aggregated values in billions.
+            const dataByYear = {};
+            json.forEach(pt => {
+              const year = new Date(pt.date * 1000).getFullYear();
+              const tvl = pt.totalLiquidityUSD || pt.tvl || pt.totalLiquidityUsd;
+              if (!tvl) return;
+              if (!dataByYear[year]) dataByYear[year] = 0;
+              // take last value of the year
+              dataByYear[year] = tvl;
+            });
+            const years = Object.keys(dataByYear).sort();
+            const labels = years;
+            const values = years.map(y => (dataByYear[y] / 1e9).toFixed(1));
+            const result = { labels, values };
+            saveCache(result);
+            return result;
+          } catch (err) {
+            console.error('fetchDefiTvl error', err);
+            const cached = loadCache();
+            return cached || fallback();
+          }
+        }
+        document.addEventListener('DOMContentLoaded', async function() {
+          const ctx = document.getElementById('tvl-chart').getContext('2d');
+          const data = await fetchDefiTvl();
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'Total Value Locked (USD Billions)',
+                data: data.values,
+                borderColor: '#f97316',
+                backgroundColor: 'rgba(249,115,22,0.15)',
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 3
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } }, grid: { display: false } },
+                y: { ticks: { color: '#333', font: { family: 'Maison Neue Mono', size: 10 } }, grid: { color: 'rgba(0,0,0,0.05)' } }
+              },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: context => `${context.parsed.y}B`
+                  }
+                }
+              }
+            }
+          });
+        });
+      </script>
+    </div>
+  </section>
+
+  <!-- Drivers section -->
+  <section class="section angled">
+    <div class="section-wrapper">
+      <h2 class="section-title" style="margin-bottom:2rem;">Key Drivers</h2>
+      <ul class="thesis-points" style="color: rgba(0,0,0,0.85);">
+        <li>Explosive growth in DeFi applications and liquidity pools expanding investment opportunities.</li>
+        <li>Real‑world adoption of blockchain for cross‑border payments, supply chains and identity management.</li>
+        <li>Emergence of institutional‑grade custody solutions and regulatory frameworks enabling broader participation.</li>
+      </ul>
+      <h2 class="section-title" style="margin-bottom:2rem; margin-top:3rem;">Risks &amp; Considerations</h2>
+      <ul class="thesis-points" style="color: rgba(0,0,0,0.85);">
+        <li>Smart contract vulnerabilities and hacks remain an ever‑present threat.</li>
+        <li>Network congestion and high transaction fees can deter mainstream adoption.</li>
+        <li>Regulatory uncertainty across jurisdictions may hinder growth or cause fragmentation.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Back link -->
+  <section class="section alt-angled">
+    <div class="section-wrapper" style="text-align:center;">
+      <a href="../index.html#research" class="button">Back to Research</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    &copy; 2025 InvestHub. All rights reserved.
+  </footer>
+
+  <!-- Scroll to top button -->
+  <div id="scroll-top" style="position: fixed; bottom: 1.5rem; right: 1.5rem; width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: var(--white); display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; opacity:0; transition: opacity 0.3s ease; pointer-events:none; z-index:1000;">↑</div>
+</body>
+</html>
